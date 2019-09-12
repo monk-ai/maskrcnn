@@ -42,6 +42,8 @@ class Resize(object):
         size = self.get_size(image.size)
         image = F.resize(image, size)
         return image
+
+
 class COCODemo(object):
     # COCO categories for pretty print
     CATEGORIES = [
@@ -400,6 +402,16 @@ class COCODemo(object):
             )
 
         return image
+
+
+class DrivyDemo(COCODemo):
+    def __init__(self, *args, **kwargs):
+        self.CATEGORIES = [
+            "__background",
+            "scratch",
+            "dent"
+        ]
+        super().__init__(*args, **kwargs)
 
 import numpy as np
 import matplotlib.pyplot as plt
