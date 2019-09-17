@@ -284,7 +284,7 @@ class COCODemo(object):
         colors = (colors % 255).numpy().astype("uint8")
         return colors
 
-    def overlay_boxes(self, image, predictions):
+    def overlay_boxes(self, image, predictions, thickness=1):
         """
         Adds the predicted boxes on top of the image
 
@@ -302,12 +302,12 @@ class COCODemo(object):
             box = box.to(torch.int64)
             top_left, bottom_right = box[:2].tolist(), box[2:].tolist()
             image = cv2.rectangle(
-                image, tuple(top_left), tuple(bottom_right), tuple(color), 1
+                image, tuple(top_left), tuple(bottom_right), tuple(color), thickness
             )
 
         return image
 
-    def overlay_mask(self, image, predictions):
+    def overlay_mask(self, image, predictions, thickness=3):
         """
         Adds the instances contours for each predicted object.
         Each label has a different color.
@@ -327,7 +327,7 @@ class COCODemo(object):
             contours, hierarchy = cv2_util.findContours(
                 thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
             )
-            image = cv2.drawContours(image, contours, -1, color, 3)
+            image = cv2.drawContours(image, contours, -1, color, thickness)
 
         composite = image
 
@@ -378,7 +378,7 @@ class COCODemo(object):
                 result[start_y:end_y, start_x:end_x] = masks[y, x]
         return cv2.applyColorMap(result.numpy(), cv2.COLORMAP_JET)
 
-    def overlay_class_names(self, image, predictions):
+    def overlay_class_names(self, image, predictions, fontscale=0.5, thickness=2):
         """
         Adds detected class names and scores in the positions defined by the
         top-left corner of the predicted bounding box
@@ -398,7 +398,7 @@ class COCODemo(object):
             x, y = box[:2]
             s = template.format(label, score)
             cv2.putText(
-                image, s, (x, y), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255), 1
+                image, s, (x, y), cv2.FONT_HERSHEY_SIMPLEX, fontscale, (255, 255, 255), thickness
             )
 
         return image
