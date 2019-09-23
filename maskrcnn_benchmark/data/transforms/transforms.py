@@ -83,6 +83,7 @@ class RandomVerticalFlip(object):
             target = target.transpose(1)
         return image, target
 
+
 class ColorJitter(object):
     def __init__(self,
                  brightness=None,
