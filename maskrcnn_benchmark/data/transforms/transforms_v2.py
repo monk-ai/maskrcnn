@@ -75,7 +75,7 @@ class Resize(object):
 
 class ToTensor(object):
     def __call__(self, image, target):
-        return F.to_tensor(image), target
+        return F.to_tensor(image.copy()), target
 
 
 class Normalize(object):
