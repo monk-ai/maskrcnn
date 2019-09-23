@@ -61,7 +61,6 @@ def build_transforms(cfg, is_train=True):
     transform = T.Compose(
         [
             T.Resize(min_size, max_size),
-            normalize_transform,
             T.PILToArray(),
             T.ToImgaugPolygons(),
             augmenter,
