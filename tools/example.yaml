@@ -13,7 +13,7 @@ INPUT:
   TRANSLATION_RANGE: (-0.3, 0.3)
   ROTATE_DEGREES_RANGE: (-75, 75)
   SHEAR_RANGE: (-10, 10)
-  INPUT.PERSPECTIVE_SIGMA_MAX: 0.1
+  PERSPECTIVE_SIGMA_MAX: 0.1
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   WEIGHT: "/home/ubuntu/ruben/models/tests/try6_augmentation/pretrained_trimmed.pth"
