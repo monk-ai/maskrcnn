@@ -401,6 +401,7 @@ _C.MODEL.FBNET.RPN_BN_TYPE = ""
 # Solver
 # ---------------------------------------------------------------------------- #
 _C.SOLVER = CN()
+_C.SOLVER.TYPE = "Adam"
 _C.SOLVER.MAX_ITER = 40000
 
 _C.SOLVER.BASE_LR = 0.001
