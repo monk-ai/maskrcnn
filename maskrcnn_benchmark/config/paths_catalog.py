@@ -15,6 +15,10 @@ class DatasetCatalog(object):
             "img_dir": "dataset_scratch_dent",
             "ann_file": "dataset_scratch_dent/annotations_test.json"
         },
+        "drivy_bbox_train": {
+            "img_dir": "drivy_stacked/with_event/000",
+            "ann_file": "drivy_stacked/annotations/bbox/drivy_keypoints_bboxes_part0.json"
+        },
         "coco_2017_train": {
             "img_dir": "coco/train2017",
             "ann_file": "coco/annotations/instances_train2017.json"
