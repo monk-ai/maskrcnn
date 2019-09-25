@@ -75,7 +75,10 @@ class Resize(object):
 
 class ToTensor(object):
     def __call__(self, image, target):
-        return F.to_tensor(image.copy()), target
+        print(image.max())
+        temp = F.to_tensor(image.copy())
+        print(temp.numpy().max())
+        return temp, target
 
 
 class Normalize(object):
@@ -130,7 +133,6 @@ class Augmenter:
             # if counter < 3:
             #     return self(img=img, polygons=target, counter=counter+1)
             return img, target
-        print(img_aug.max())
         return img_aug, target_aug
 
     def pol_to_bbox(self, pol):
@@ -167,9 +169,7 @@ class PILToArray:
         pass
 
     def __call__(self, img, target):
-        temp = np.asarray(img)
-        print(temp.max())
-        return temp, target
+        return np.asarray(img), target
 
 
 class ToImgaugPolygons:
@@ -186,7 +186,6 @@ class ToImgaugPolygons:
             points = points.reshape((int(len(points) / 2), 2))
             label = target.get_field('labels').numpy()[i]
             polygons.append(Polygon(points, label=label))
-        print(img.max())
         return img, polygons
 
 
@@ -224,5 +223,4 @@ class ToMaskrcnnPolygons:
 
         if 'keypoints' in self.modes:
             pass
-        print(img.max())
         return img, new_target.clip_to_image(remove_empty=True)
