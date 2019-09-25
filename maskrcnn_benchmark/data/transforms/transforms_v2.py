@@ -119,7 +119,7 @@ class Augmenter:
 
     def __call__(self, img, target, counter=0):
         img_aug, target_aug = self.aug(image=img, polygons=target)
-        if target_aug.bbox.size()[0] == 0:
+        if len(target_aug) == 0:
             if counter < 3:
                 return self.aug(image=img, polygons=target, counter=counter+1)
             return img, target
