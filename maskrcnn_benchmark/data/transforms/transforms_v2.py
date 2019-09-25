@@ -75,10 +75,7 @@ class Resize(object):
 
 class ToTensor(object):
     def __call__(self, image, target):
-        print(image.max())
-        temp = F.to_tensor(image.copy())
-        print(temp.numpy().max())
-        return temp, target
+        return F.to_tensor(image.copy()) * 255.0, target
 
 
 class Normalize(object):
