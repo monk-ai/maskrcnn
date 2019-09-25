@@ -122,7 +122,7 @@ class Augmenter:
         target_aug = self.select_polygons(target_aug, img_aug)
         if len(target_aug) == 0:
             if counter < 3:
-                return self(image=img, polygons=target, counter=counter+1)
+                return self(img=img, target=target, counter=counter+1)
             return img, target
         return img_aug, target_aug
 
