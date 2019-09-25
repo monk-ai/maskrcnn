@@ -119,11 +119,12 @@ class Augmenter:
 
     def __call__(self, img, target, counter=0):
         img_aug, target_aug = self.aug(image=img, polygons=target)
+        target_aug = self.select_polygons(target_aug, img_aug)
         if len(target_aug) == 0:
             if counter < 3:
-                return self.aug(image=img, polygons=target, counter=counter+1)
+                return self(image=img, polygons=target, counter=counter+1)
             return img, target
-        return img_aug, self.select_polygons(target_aug, img_aug)
+        return img_aug, target_aug
 
     def pol_to_bbox(self, pol):
         bbox = pol.to_bounding_box()
