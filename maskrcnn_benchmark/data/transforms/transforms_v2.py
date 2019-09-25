@@ -117,8 +117,12 @@ class Augmenter:
             iaa.Sometimes(0.5, iaa.PerspectiveTransform((0.0, perspective_sigma_max), keep_size=True)),
         ], random_order=True)  # apply augmenters in random order
 
-    def __call__(self, img, target):
+    def __call__(self, img, target, counter=0):
         img_aug, target_aug = self.aug(image=img, polygons=target)
+        if target_aug.bbox.size()[0] == 0:
+            if counter < 3:
+                return self.aug(image=img, polygons=target, counter=counter+1)
+            return img, target
         return img_aug, self.select_polygons(target_aug, img_aug)
 
     def pol_to_bbox(self, pol):
