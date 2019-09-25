@@ -123,8 +123,9 @@ class Augmenter:
         bugged = False
         try:
             target_aug = self.select_polygons(target_aug, img_aug)
-        except AssertionError:
+        except:
             bugged = True
+            print("BUGGED IMAGE")
         if len(target_aug) == 0 or bugged:
             if counter < 3:
                 return self(img=img, polygons=target, counter=counter+1)
