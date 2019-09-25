@@ -119,10 +119,15 @@ class Augmenter:
 
     def __call__(self, img, target, counter=0):
         img_aug, target_aug = self.aug(image=img, polygons=target)
-        target_aug = self.select_polygons(target_aug, img_aug)
-        if len(target_aug) == 0:
+        # TODO: Fix dat shit
+        bugged = False
+        try:
+            target_aug = self.select_polygons(target_aug, img_aug)
+        except AssertionError:
+            bugged = True
+        if len(target_aug) == 0 or bugged:
             if counter < 3:
-                return self(img=img, target=target, counter=counter+1)
+                return self(img=img, polygons=target, counter=counter+1)
             return img, target
         return img_aug, target_aug
 
