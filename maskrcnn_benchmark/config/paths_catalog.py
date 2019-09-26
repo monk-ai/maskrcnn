@@ -8,12 +8,12 @@ class DatasetCatalog(object):
     DATA_DIR = "datasets"
     DATASETS = {
         "drivy_train": {
-            "img_dir": "dataset_scratch_dent",
-            "ann_file": "dataset_scratch_dent/annotations_train.json"
+            "img_dir": "drivy_stacked",
+            "ann_file": "drivy_stacked/annotations/seg/annotations_train.json"
         },
         "drivy_test": {
-            "img_dir": "dataset_scratch_dent",
-            "ann_file": "dataset_scratch_dent/annotations_test.json"
+            "img_dir": "drivy_stacked",
+            "ann_file": "drivy_stacked/annotations/seg/annotations_test.json"
         },
         "drivy_bbox_train": {
             "img_dir": "drivy_stacked/with_event/000",
