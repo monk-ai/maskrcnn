@@ -12,6 +12,10 @@ from imgaug.augmentables.polys import Polygon
 from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
 
+# TODO: Check if all images are scaled 0-255 after augmentation
+# TODO: Check the order of channels after augmentation between F.ToTensor(pil_image) and our augmentation
+# TODO: Check number of labeels. Seems wrong
+
 
 class Compose(object):
     def __init__(self, transforms):
