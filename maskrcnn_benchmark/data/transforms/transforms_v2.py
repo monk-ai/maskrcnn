@@ -129,7 +129,7 @@ class Augmenter:
         except:
             bugged = True
             print("BUGGED IMAGE")
-            return img, target, img_aug, target_aug
+            return img, target
         if len(target_aug) == 0 or bugged:
             # if counter < 3:
             #     return self(img=img, polygons=target, counter=counter+1)
