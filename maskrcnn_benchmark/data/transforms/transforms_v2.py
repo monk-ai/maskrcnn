@@ -109,15 +109,15 @@ class Augmenter:
         self.aug_others = iaa.Sequential([
             # iaa.Resize({"height": 32, "width": 64}),
             iaa.Fliplr(fliplr_prob),
-            iaa.Crop(percent=(0, crop_max)),
             iaa.Affine(
                 scale={"x": input_zoom_range, "y": input_zoom_range},
                 translate_percent={"x": translation_range, "y": translation_range},
                 rotate=rotation_range,
                 shear=shear_range
             ),
+            iaa.Crop(percent=(0, crop_max)),
             iaa.Sometimes(0.5, iaa.PerspectiveTransform((0.0, perspective_sigma_max), keep_size=True)),
-        ], random_order=True)  # apply augmenters in random order
+        ], random_order=False)  # apply augmenters in random order
 
     def __call__(self, img, target, counter=0):
         img_aug, target_aug = self.aug_color(image=img, polygons=target)
@@ -129,7 +129,6 @@ class Augmenter:
         except:
             bugged = True
             print("BUGGED IMAGE")
-            return img, target
         if len(target_aug) == 0 or bugged:
             # if counter < 3:
             #     return self(img=img, polygons=target, counter=counter+1)
