@@ -98,16 +98,18 @@ class Augmenter:
                  linear_contrast_range, brightness_range, hue_sat_add_range, gaussian_noise_scale_max, input_zoom_range,
                  translation_range, rotation_range, shear_range, perspective_sigma_max):
         self.modes = modes
-        self.aug = iaa.Sequential([
-            # iaa.Resize({"height": 32, "width": 64}),
-            iaa.Fliplr(fliplr_prob),
-            iaa.Crop(percent=(0, crop_max)),
+        self.aug_color = iaa.Sequential([
             iaa.Sometimes(0.5, iaa.GaussianBlur(sigma=(0, gaussian_blur_sigma_max))),
             iaa.Sometimes(0.5, iaa.ContrastNormalization(contrast_normalization_range)),
             iaa.Sometimes(0.5, iaa.LinearContrast(linear_contrast_range, per_channel=0.5)),
-            iaa.Multiply(brightness_range, per_channel=0.4),
             iaa.Sometimes(0.5, iaa.AddToHueAndSaturation(hue_sat_add_range)),
             iaa.Sometimes(0.5, iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, gaussian_noise_scale_max), per_channel=0.5)),
+            iaa.Multiply(brightness_range, per_channel=0.4),
+        ])
+        self.aug_others = iaa.Sequential([
+            # iaa.Resize({"height": 32, "width": 64}),
+            iaa.Fliplr(fliplr_prob),
+            iaa.Crop(percent=(0, crop_max)),
             iaa.Affine(
                 scale={"x": input_zoom_range, "y": input_zoom_range},
                 translate_percent={"x": translation_range, "y": translation_range},
@@ -118,7 +120,8 @@ class Augmenter:
         ], random_order=True)  # apply augmenters in random order
 
     def __call__(self, img, target, counter=0):
-        img_aug, target_aug = self.aug(image=img, polygons=target)
+        img_aug, target_aug = self.aug_color(image=img, polygons=target)
+        img_aug, target_aug = self.aug_others(image=img_aug, polygons=target_aug)
         # TODO: Fix dat shit
         bugged = False
         try:
@@ -126,10 +129,11 @@ class Augmenter:
         except:
             bugged = True
             print("BUGGED IMAGE")
+            return img, target, img_aug, target_aug
         if len(target_aug) == 0 or bugged:
             # if counter < 3:
             #     return self(img=img, polygons=target, counter=counter+1)
-            return img, target
+            return self.aug_color(image=img, polygons=target)
         return img_aug, target_aug
 
     def pol_to_bbox(self, pol):
