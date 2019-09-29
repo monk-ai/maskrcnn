@@ -137,6 +137,7 @@ class COCODemo(object):
         show_mask_heatmaps=False,
         masks_per_dim=2,
         min_image_size=224,
+        use_latest_checkpoint=False
     ):
         self.cfg = cfg.clone()
         self.model = build_detection_model(cfg)
@@ -147,7 +148,7 @@ class COCODemo(object):
 
         save_dir = cfg.OUTPUT_DIR
         checkpointer = DetectronCheckpointer(cfg, self.model, save_dir=save_dir)
-        _ = checkpointer.load(cfg.MODEL.WEIGHT)
+        _ = checkpointer.load(cfg.MODEL.WEIGHT, use_latest=use_latest_checkpoint)
 
         self.transforms = self.build_transform()
 
