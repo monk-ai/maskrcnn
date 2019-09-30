@@ -56,10 +56,10 @@ class GeneralizedRCNN(nn.Module):
             result = proposals
             detector_losses = {}
 
+        losses = {}
+        losses.update(detector_losses)
+        losses.update(proposal_losses)
         if self.training:
-            losses = {}
-            losses.update(detector_losses)
-            losses.update(proposal_losses)
             return losses
 
-        return result
+        return result, losses

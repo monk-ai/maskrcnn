@@ -206,7 +206,7 @@ class COCODemo(object):
         """
         if conf_thresh is None:
             conf_thresh = self.confidence_threshold
-        predictions = self.compute_prediction(image)
+        predictions, losses = self.compute_prediction(image)
         top_predictions = self.select_top_predictions(predictions, conf_thresh=conf_thresh)
 
         result = image.copy()
@@ -239,7 +239,7 @@ class COCODemo(object):
         image_list = image_list.to(self.device)
         # compute predictions
         with torch.no_grad():
-            predictions = self.model(image_list)
+            predictions, losses = self.model(image_list)
         predictions = [o.to(self.cpu_device) for o in predictions]
 
         # always single image is passed at a time
@@ -256,7 +256,7 @@ class COCODemo(object):
             # always single image is passed at a time
             masks = self.masker([masks], [prediction])[0]
             prediction.add_field("mask", masks)
-        return prediction
+        return prediction, losses
 
     def select_top_predictions(self, predictions, conf_thresh=None):
         """
