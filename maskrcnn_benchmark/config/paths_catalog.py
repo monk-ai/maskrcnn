@@ -16,11 +16,11 @@ class DatasetCatalog(object):
             "ann_file": "drivy_stacked/annotations/seg/annotations_test.json",
         "drivy_dent_train": {
             "img_dir": "drivy_stacked",
-            "ann_file": "drivy_stacked/annotations/seg/annotations_train.json"
+            "ann_file": "drivy_stacked/annotations/seg/annotations_dent_train.json"
         },
         "drivy_dent_test": {
             "img_dir": "drivy_stacked",
-            "ann_file": "drivy_stacked/annotations/seg/annotations_test.json"
+            "ann_file": "drivy_stacked/annotations/seg/annotations_dent_test.json"
         },
         "coco_2017_train": {
             "img_dir": "coco/train2017",
