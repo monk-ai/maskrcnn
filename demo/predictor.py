@@ -256,7 +256,7 @@ class COCODemo(object):
             # always single image is passed at a time
             masks = self.masker([masks], [prediction])[0]
             prediction.add_field("mask", masks)
-        return prediction, losses
+        return prediction
 
     def select_top_predictions(self, predictions, conf_thresh=None):
         """
