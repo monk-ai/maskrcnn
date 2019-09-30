@@ -424,7 +424,8 @@ class PolygonList(object):
     def resize(self, size):
         resized_polygons = []
         for polygon in self.polygons:
-            resized_polygons.append(polygon.resize(size))
+            if 0 not in polygon.size:
+                resized_polygons.append(polygon.resize(size))
 
         resized_size = size
         return PolygonList(resized_polygons, resized_size)
