@@ -194,7 +194,7 @@ class COCODemo(object):
         )
         return transform
 
-    def run_on_opencv_image(self, image):
+    def run_on_opencv_image(self, image, conf_thresh=None):
         """
         Arguments:
             image (np.ndarray): an image as returned by OpenCV
@@ -204,8 +204,10 @@ class COCODemo(object):
                 of the detection properties can be found in the fields of
                 the BoxList via `prediction.fields()`
         """
+        if conf_thresh is None:
+            conf_thresh = self.confidence_threshold
         predictions = self.compute_prediction(image)
-        top_predictions = self.select_top_predictions(predictions)
+        top_predictions = self.select_top_predictions(predictions, conf_thresh=conf_thresh)
 
         result = image.copy()
         if self.show_mask_heatmaps:
@@ -256,7 +258,7 @@ class COCODemo(object):
             prediction.add_field("mask", masks)
         return prediction
 
-    def select_top_predictions(self, predictions):
+    def select_top_predictions(self, predictions, conf_thresh=None):
         """
         Select only predictions which have a `score` > self.confidence_threshold,
         and returns the predictions in descending order of score
@@ -270,8 +272,10 @@ class COCODemo(object):
                 of the detection properties can be found in the fields of
                 the BoxList via `prediction.fields()`
         """
+        if conf_thresh is None:
+            conf_thresh = self.confidence_threshold
         scores = predictions.get_field("scores")
-        keep = torch.nonzero(scores > self.confidence_threshold).squeeze(1)
+        keep = torch.nonzero(scores > conf_thresh).squeeze(1)
         predictions = predictions[keep]
         scores = predictions.get_field("scores")
         _, idx = scores.sort(0, descending=True)
