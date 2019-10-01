@@ -33,7 +33,7 @@ class GeneralizedRCNN(nn.Module):
             "loss_classif": cfg.MODEL.LOSS_WEIGHT.CLASSIF,
             "loss_box_reg": cfg.MODEL.LOSS_WEIGHT.BOX_REG,
             "loss_mask": cfg.MODEL.LOSS_WEIGHT.MASK,
-            "loss_objectness": cfg.MODEL.LOSS_WEIGHT.OBJECTENESS,
+            "loss_objectness": cfg.MODEL.LOSS_WEIGHT.OBJECTNESS,
             "loss_rpn_box_reg": cfg.MODEL.LOSS_WEIGHT.RPN_BOX_REG
         }
 
