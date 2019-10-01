@@ -2,7 +2,7 @@
 import torch
 import math
 import torch
-from torch.optimizer import Optimizer
+from torch.optim import Optimizer
 
 from .lr_scheduler import WarmupMultiStepLR
 
