@@ -34,6 +34,13 @@ _C.MODEL.CLS_AGNOSTIC_BBOX_REG = False
 # path
 _C.MODEL.WEIGHT = ""
 
+_C.MODEL.LOSS_WEIGHT = CN()
+_C.MODEL.LOSS_WEIGHT.CLASSIF = 1.0
+_C.MODEL.LOSS_WEIGHT.BOX_REG = 1.0
+_C.MODEL.LOSS_WEIGHT.MASK = 1.0
+_C.MODEL.LOSS_WEIGHT.OBJECTENESS = 1.0
+_C.MODEL.LOSS_WEIGHT.RPN_BOX_REG = 1.0
+
 
 # -----------------------------------------------------------------------------
 # INPUT

@@ -29,6 +29,13 @@ class GeneralizedRCNN(nn.Module):
         self.backbone = build_backbone(cfg)
         self.rpn = build_rpn(cfg, self.backbone.out_channels)
         self.roi_heads = build_roi_heads(cfg, self.backbone.out_channels)
+        self.weights = {
+            "loss_classif": cfg.MODEL.LOSS_WEIGHT.CLASSIF,
+            "loss_box_reg": cfg.MODEL.LOSS_WEIGHT.BOX_REG,
+            "loss_mask": cfg.MODEL.LOSS_WEIGHT.MASK,
+            "loss_objectness": cfg.MODEL.LOSS_WEIGHT.OBJECTENESS,
+            "loss_rpn_box_reg": cfg.MODEL.LOSS_WEIGHT.RPN_BOX_REG
+        }
 
     def forward(self, images, targets=None):
         """
@@ -48,8 +55,16 @@ class GeneralizedRCNN(nn.Module):
         images = to_image_list(images)
         features = self.backbone(images.tensors)
         proposals, proposal_losses = self.rpn(images, features, targets)
+        proposal_losses["loss_objectness"] *= self.weights["loss_objectness"]
+        proposal_losses["loss_rpn_box_reg"] *= self.weights["loss_rpn_box_reg"]
         if self.roi_heads:
             x, result, detector_losses = self.roi_heads(features, proposals, targets)
+            if "loss_objectness" in detector_losses.keys():
+                detector_losses["loss_objectness"] *= self.weights["loss_objectness"]
+            if "loss_mask" in detector_losses.keys():
+                detector_losses["loss_mask"] *= self.weights["loss_mask"]
+            if "loss_classif" in detector_losses.keys():
+                detector_losses["loss_classif"] *= self.weights["loss_classif"]
         else:
             # RPN-only models don't have roi_heads
             x = features
