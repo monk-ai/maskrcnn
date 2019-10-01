@@ -7,6 +7,10 @@ import os
 class DatasetCatalog(object):
     DATA_DIR = "datasets"
     DATASETS = {
+        "drivy_car_parts": {
+            "img_dir": "Training_car_parts/Data_sent_to_Mendrika",
+            "ann_file": "Training_car_parts/full_export_coco.json"
+        },
         "drivy_train": {
             "img_dir": "drivy_stacked",
             "ann_file": "drivy_stacked/annotations/seg/annotations_train.json"
