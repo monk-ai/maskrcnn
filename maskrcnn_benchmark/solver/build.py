@@ -22,7 +22,8 @@ def make_optimizer(cfg, model):
     if cfg.SOLVER.TYPE.lower() == "sgd":
         optimizer = torch.optim.SGD(params, lr, momentum=cfg.SOLVER.MOMENTUM)
     elif cfg.SOLVER.TYPE.lower() == "adam":
-        # optimizer = torch.optim.Adam(params, lr, betas=(0.9, 0.999))
+        optimizer = torch.optim.Adam(params, lr, betas=(0.9, 0.999))
+    elif cfg.SOLVER.TYPE.lower() == "adamw":
         optimizer = AdamW(params, lr, betas=(0.9, 0.999))
     else:
         import sys
