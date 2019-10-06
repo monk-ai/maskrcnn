@@ -23,6 +23,14 @@ class DatasetCatalog(object):
             "img_dir": "drivy_stacked",
             "ann_file": "drivy_stacked/annotations/seg/annotations_dent_test.json"
         },
+        "drivy_car_parts_train": {
+            "img_dir": "Training_car_parts",
+            "ann_file": "Training_car_parts/full_export_coco_train.json"
+        },
+        "drivy_car_parts_test": {
+            "img_dir": "Training_car_parts",
+            "ann_file": "Training_car_parts/full_export_coco_test.json"
+        },
         "coco_2017_train": {
             "img_dir": "coco/train2017",
             "ann_file": "coco/annotations/instances_train2017.json"
